@@ -5,6 +5,7 @@ let powerPellets = 4;
 
 
 // Define your ghosts here
+
 const inky = {
   menu_option: '1',
   name: 'Inky',
@@ -61,6 +62,7 @@ function displayStats() {
 function displayMenu() {
   console.log('\n\nSelect Option:\n');  // each \n creates a new line
   console.log('(d) Eat Dot');
+  console.log('(p) Eat Power-Pellet');
   console.log('(1) Eat Inky');
   console.log('(2) Eat Blinky');
   console.log('(3) Eat Pinky');
@@ -76,8 +78,12 @@ function displayMenu() {
 function eatGhost(ghost) {
   if (ghost.edible == false) {
     lives -= 1
+    score += 200;
+    ghost.edible = false;
   }
   console.log(`Pac-Man killed by ${ghost.name} ${ghost.colour}`);
+
+  gameOver();
 }
 
 // If Pac-Man's lives go below 0, it's Game Over and you should exit the game.
@@ -101,6 +107,13 @@ function eatDot() {
   score += 10;
 }
 
+function eatPowerPellet() {
+  console.log('\nPower-Pellet eaton!');
+  score += 50;
+  powerPellets -= 1;
+  ghosts.edible = true;
+}
+
 
 // Process Player's Input
 function processInput(key) {
@@ -111,6 +124,21 @@ function processInput(key) {
       break;
     case 'd':
       eatDot();
+      break;
+    case '1':
+      eatGhost(inky);
+      break;
+    case '2':
+      eatGhost(blinky);
+      break;
+    case '3':
+      eatGhost(pinky);
+      break;
+    case '4':
+      eatGhost(clyde);
+      break;
+    case 'p':
+      eatPowerPellet();
       break;
     default:
       console.log('\nInvalid Command!');
