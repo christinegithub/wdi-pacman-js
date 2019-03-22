@@ -62,25 +62,26 @@ function displayStats() {
 function displayMenu() {
   console.log('\n\nSelect Option:\n');  // each \n creates a new line
   console.log('(d) Eat Dot');
-  console.log('(p) Eat Power-Pellet');
-  console.log('(1) Eat Inky');
-  console.log('(2) Eat Blinky');
-  console.log('(3) Eat Pinky');
-  console.log('(4) Eat Clyde');
+  if (powerPellets > 0) {
+    console.log('(p) Eat Power-Pellet');
+  }
+
+  ghosts.forEach(function(ghost) {
+    console.log(`(${ghost.menu_option}) Eat ${ghost.name} (${ghost.edible ? 'Edible' : 'Inedible'})`);
+  })
   console.log('(q) Quit');
 }
 
-// add a function called eatGhost that accepts a ghost as an argument
-// the eatGhost should check to see if a ghost is edible. If it's not, Pac-Man should lose a life
-// include a quick sentence that says the name and colour of the ghost that kills Pac-Man
-// (similar to how it quickly flashes chomp on the screen when you eat a dot)
-
 function eatGhost(ghost) {
-  if (ghost.edible == false) {
+  if (ghost.edible === false) {
     lives -= 1
     score += 200;
-    ghost.edible = false;
+    // ghost.edible = false;
+  } else if (ghost.edible === true) {
+    score += 200;
+    // ghost.edible = false;
   }
+  ghost.edible = false;
   console.log(`Pac-Man killed by ${ghost.name} ${ghost.colour}`);
 
   gameOver();
@@ -108,10 +109,14 @@ function eatDot() {
 }
 
 function eatPowerPellet() {
-  console.log('\nPower-Pellet eaton!');
+  console.log('\nPower-Pellet eaten!');
   score += 50;
   powerPellets -= 1;
-  ghosts.edible = true;
+  let i = 0
+  ghosts.forEach(function(ghost) {
+    ghost.edible = true;
+    i++;
+  })
 }
 
 
@@ -139,6 +144,9 @@ function processInput(key) {
       break;
     case 'p':
       eatPowerPellet();
+      if (powerPellets <= 0) {
+        console.log('No more Power-Pellets left!');
+      }
       break;
     default:
       console.log('\nInvalid Command!');
