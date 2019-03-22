@@ -66,6 +66,27 @@ function displayMenu() {
   console.log('(q) Quit');
 }
 
+// add a function called eatGhost that accepts a ghost as an argument
+// the eatGhost should check to see if a ghost is edible. If it's not, Pac-Man should lose a life
+// include a quick sentence that says the name and colour of the ghost that kills Pac-Man
+// (similar to how it quickly flashes chomp on the screen when you eat a dot)
+
+function eatGhost(ghost) {
+  if (ghost.edible == false) {
+    lives -= 1
+  }
+  console.log(`Pac-Man killed by ${ghost.name} ${ghost.colour}`);
+}
+
+// If Pac-Man's lives go below 0, it's Game Over and you should exit the game.
+// Create a function that checks for this every time Pac-Man loses a life, and calls process.exit(); if necessary.
+
+function gameOver() {
+  if (lives < 0) {
+    process.exit();
+  }
+}
+
 function displayPrompt() {
   // process.stdout.write is similar to console.log except it doesn't add a new line after the text
   process.stdout.write('\nWaka Waka :v '); // :v is the Pac-Man emoji.
